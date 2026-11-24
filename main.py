@@ -20,8 +20,23 @@ import sys
 
 WORD = "Gaslighting"
 
+MAX_CHARS = 20
+MIN_CHARS = 1
+
+
+def validate_word(text: str) -> None:
+    """Enforce the gate: 1-20 characters, one non-blank word."""
+    if not MIN_CHARS <= len(text) <= MAX_CHARS:
+        raise ValueError(
+            f"word is {len(text)} characters, outside the "
+            f"{MIN_CHARS}-{MAX_CHARS} limit"
+        )
+    if not text.strip() or any(c.isspace() for c in text):
+        raise ValueError("word must be one non-blank word")
+
 
 def main() -> int:
+    validate_word(WORD)
     out_dir = os.environ.get("ENTRY_OUTPUT_DIR", "/output")
     os.makedirs(out_dir, exist_ok=True)
     path = os.path.join(out_dir, "entry.txt")
